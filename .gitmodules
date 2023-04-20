@@ -1,6 +1,3 @@
 [submodule "stable-dreamfusion"]
 	path = stable-dreamfusion
 	url = ssh://git@github.com/ashawkey/stable-dreamfusion
-[submodule "comp-t2i-dataset"]
-	path = comp-t2i-dataset
-	url = ssh://git@github.com/Seth-Park/comp-t2i-dataset
