@@ -57,8 +57,9 @@ This can be accomplished in the CLI as follows (using the same venv as before):
     images](https://openaipublic.azureedge.net/main/point-e/coco_images.zip).
 2.  Extract desired stills from the videos rendered by DreamFusion into a
     dedicated directory. The filename of each image should be the prompt used
-    to generate it followed by the image extension; see the COCO evaluation
-    images for examples.
+    to generate it followed by a period and anything else after that, such as a
+    frame index and file extension; see the COCO evaluation images for
+    examples.
 3.  Run CLIP R-Precision with _evaluate.py_, using either of the two COCO image
     sets and optionally excluding evaluation images whose prompts contain
     certain words. For example, we might generate using the prompt "there is a
@@ -71,6 +72,10 @@ This can be accomplished in the CLI as follows (using the same venv as before):
 (env) $ wget https://openaipublic.azureedge.net/main/point-e/coco_images.zip
 (env) $ unzip coco_images.zip
 (env) $ mkdir --parents exp/cat-toy/output
-(env) $ ffmpeg -i exp/cat-toy/dreamfusion/results/df_ep0100_rgb.mp4 -frames:v 1 exp/cat-toy/output/a\ \<cat-toy\>\ toy.png
+(env) $ ffmpeg -i exp/cat-toy/dreamfusion/results/df_ep0100_rgb.mp4 -filter:v fps=6 exp/cat-toy/output/a\ \<cat-toy\>\ toy.%d.png
 (env) $ python evaluate.py -e coco_images/1 -x cat toy -o exp/cat-toy/output
 ```
+
+In this case, CLIP R-Precision is calculated over 24 images (six frame per
+second over the default 4 seconds of DreamFusion output), which represent one
+view every 15 degrees (the default 360-degree rotation divided into 24 frames).
